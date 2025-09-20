@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using ReactApp2.Server.Models;
 
 namespace ReactApp2.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries =

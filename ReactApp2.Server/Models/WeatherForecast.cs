@@ -1,4 +1,4 @@
-namespace ReactApp2.Server
+namespace ReactApp2.Server.Models
 {
     public class WeatherForecast
     {
