@@ -1,0 +1,6 @@
+{
+    "routesDirectory": "./src/app",
+    "generatedRouteTree": "./src/app/routeTree.gen.ts",
+    "routeFileIgnorePrefix": "-",
+    "quoteStyle": "single"
+}

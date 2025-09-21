@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
-import './App.css';
-
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
-}
-
-function App() {
+import './route.css';
+import type Forecast from '../../features/weatherforecast/model';
+function WeatherForecastApp() {
     const [forecasts, setForecasts] = useState<Forecast[]>();
 
     useEffect(() => {
@@ -55,4 +48,4 @@ function App() {
     }
 }
 
-export default App;
+export default WeatherForecastApp;
