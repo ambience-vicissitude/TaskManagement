@@ -6,6 +6,10 @@ This is the Task Management App created from VS Studio Insiders as a .NET Core A
 
 Features expected by Sep 24 include:
 
+### Ongoing
+
+- TODO: the react-router is writing, the app is launching, but I don't think the routing is actually working yet
+
 ### Crud
 
 - CRUD of a checklist

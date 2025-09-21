@@ -17,15 +17,19 @@ import { getWorkItems, createWorkItem, deleteWorkItem } from "../api"
 import type WorkItem from '../model'
 import { useState } from "react"
 
-export default function WorkItemDirectory() {
+interface WorkItemDirectoryProps {
+    checklistId: number
+}
+
+const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) => {
     const queryClient = useQueryClient()
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
 
     // READ
     const { data: workItems, error, isLoading } = useQuery({
-        queryKey: ["workItems"],
-        queryFn: getWorkItems,
+        queryKey: ["checklistId", checklistId],
+        queryFn: () => getWorkItems(checklistId),
     })
 
     // CREATE
@@ -73,3 +77,5 @@ export default function WorkItemDirectory() {
         </div>
     )
 }
+
+export default WorkItemDirectory;

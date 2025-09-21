@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
-import './route.css';
+import './index.css';
 import type Forecast from '../../features/weatherforecast/model';
-function WeatherForecastApp() {
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/weatherforecast/')({
+    component: WeatherForecastRouteComponent,
+})
+
+function WeatherForecastRouteComponent() {
     const [forecasts, setForecasts] = useState<Forecast[]>();
 
     useEffect(() => {
@@ -48,4 +54,4 @@ function WeatherForecastApp() {
     }
 }
 
-export default WeatherForecastApp;
+export default WeatherForecastRouteComponent;

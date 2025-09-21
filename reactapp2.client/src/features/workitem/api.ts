@@ -23,7 +23,8 @@ export async function createWorkItem(data: { name: string, description: string }
 }
 
 // ---- READ ----
-export async function getWorkItems(): Promise<WorkItem[]> {
+export async function getWorkItems(checklistId: number): Promise<WorkItem[]> {
+    console.log("TODO: Fetching work items for checklist ID:", checklistId);
     const res = await fetch(`${API_BASE}`)
     if (!res.ok) throw new Error(`Failed to fetch work items for all checklists`)
     return res.json()

@@ -1,22 +1,27 @@
 
 
 import { useQuery } from "@tanstack/react-query"
-import { useParams } from "@tanstack/react-router"
-import { getWorkItem } from "../api"
+import { getChecklist } from "../api"
 import WorkItemsDirectory from "./../../workitem/components/directory"
+import type Checklist from "../model"
 
-export default function WorkItemDetailPage() {
-    const { id } = useParams<{ id: number }>()
+const ChecklistDetailPage: React.FC<Checklist> = ({ id }) => {
 
     const { data: checklist, isLoading, error } = useQuery({
         queryKey: ["checklist", id],
-        queryFn: () => getWorkItem(id),
+        queryFn: () => getChecklist(id),
     })
 
-    return (
-        <div>
-            <h2>{checklist.name}</h2>
-            <WorkItemsDirectory checklistId={checklist.id} />
-        </div>
-    )
+    if (isLoading) return <p>Loading checklist details...</p>
+    else if (checklist) 
+        return (
+            <div>
+                <h2>{checklist.name}</h2>
+                <WorkItemsDirectory checklistId={checklist.id} />
+            </div>
+        )
+    else if (error) return <p style={{ color: "red" }}>Error: {(error as Error).message}</p>
+    else return <p>No checklist found.</p>
 }
+
+export default ChecklistDetailPage;

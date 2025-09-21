@@ -10,11 +10,18 @@
 
 import { Route as rootRouteImport } from './__root'
 import { Route as IndexRouteImport } from './index'
+import { Route as WeatherforecastIndexRouteImport } from './weatherforecast/index'
 import { Route as WorkitemWorkItemIdRouteImport } from './workitem/$workItemId'
+import { Route as ChecklistChecklistIdRouteImport } from './checklist/$checklistId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WeatherforecastIndexRoute = WeatherforecastIndexRouteImport.update({
+  id: '/weatherforecast/',
+  path: '/weatherforecast/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WorkitemWorkItemIdRoute = WorkitemWorkItemIdRouteImport.update({
@@ -22,31 +29,57 @@ const WorkitemWorkItemIdRoute = WorkitemWorkItemIdRouteImport.update({
   path: '/workitem/$workItemId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChecklistChecklistIdRoute = ChecklistChecklistIdRouteImport.update({
+  id: '/checklist/$checklistId',
+  path: '/checklist/$checklistId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/checklist/$checklistId': typeof ChecklistChecklistIdRoute
   '/workitem/$workItemId': typeof WorkitemWorkItemIdRoute
+  '/weatherforecast': typeof WeatherforecastIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/checklist/$checklistId': typeof ChecklistChecklistIdRoute
   '/workitem/$workItemId': typeof WorkitemWorkItemIdRoute
+  '/weatherforecast': typeof WeatherforecastIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/checklist/$checklistId': typeof ChecklistChecklistIdRoute
   '/workitem/$workItemId': typeof WorkitemWorkItemIdRoute
+  '/weatherforecast/': typeof WeatherforecastIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/workitem/$workItemId'
+  fullPaths:
+    | '/'
+    | '/checklist/$checklistId'
+    | '/workitem/$workItemId'
+    | '/weatherforecast'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/workitem/$workItemId'
-  id: '__root__' | '/' | '/workitem/$workItemId'
+  to:
+    | '/'
+    | '/checklist/$checklistId'
+    | '/workitem/$workItemId'
+    | '/weatherforecast'
+  id:
+    | '__root__'
+    | '/'
+    | '/checklist/$checklistId'
+    | '/workitem/$workItemId'
+    | '/weatherforecast/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChecklistChecklistIdRoute: typeof ChecklistChecklistIdRoute
   WorkitemWorkItemIdRoute: typeof WorkitemWorkItemIdRoute
+  WeatherforecastIndexRoute: typeof WeatherforecastIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +91,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/weatherforecast/': {
+      id: '/weatherforecast/'
+      path: '/weatherforecast'
+      fullPath: '/weatherforecast'
+      preLoaderRoute: typeof WeatherforecastIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/workitem/$workItemId': {
       id: '/workitem/$workItemId'
       path: '/workitem/$workItemId'
@@ -65,12 +105,21 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkitemWorkItemIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checklist/$checklistId': {
+      id: '/checklist/$checklistId'
+      path: '/checklist/$checklistId'
+      fullPath: '/checklist/$checklistId'
+      preLoaderRoute: typeof ChecklistChecklistIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChecklistChecklistIdRoute: ChecklistChecklistIdRoute,
   WorkitemWorkItemIdRoute: WorkitemWorkItemIdRoute,
+  WeatherforecastIndexRoute: WeatherforecastIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

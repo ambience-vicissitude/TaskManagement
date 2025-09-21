@@ -1,8 +1,8 @@
-import WorkItemDirectory from "../features/checklist/components/directory"
+import ChecklistDirectory from "../features/checklist/components/directory"
 import { createFileRoute } from "@tanstack/react-router"
 
 export default function IndexPage() {
-    return <WorkItemDirectory />
+    return <ChecklistDirectory />
 }
 
 export const Route = createFileRoute('/')({ component: IndexPage })
