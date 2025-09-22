@@ -6,7 +6,7 @@ namespace ReactApp2.Server.Business
 {
     public interface IWorkItemService
     {
-        Task<IEnumerable<WorkItem>> GetAllActiveAsync();
+        Task<IEnumerable<WorkItem>> GetAllActiveAsync(int? checklistId);
         Task<WorkItem?> GetOneAsync(int id);
         Task<WorkItem?> UpdateOneAsync(WorkItem dto);
         Task<WorkItem> CreateOneAsync(CreateWorkItem dto);
@@ -17,7 +17,20 @@ namespace ReactApp2.Server.Business
     {
         private readonly AppDbContext _context;
         public WorkItemService(AppDbContext context) => _context = context;
-        public async Task<IEnumerable<WorkItem>> GetAllActiveAsync() => await _context.WorkItems.ToListAsync();
+
+        // Get all active (not soft-deleted) work items, option for a where clause for a specific checklist
+        public async Task<IEnumerable<WorkItem>> GetAllActiveAsync(int? checklistId)
+        {
+            IQueryable<WorkItem> query = _context.WorkItems;
+
+            if (checklistId.HasValue)
+            {
+                query = query.Where(w => w.ChecklistId == checklistId.Value);
+            }
+
+            return await query.ToListAsync(); // async query execution
+        }
+
         public async Task<WorkItem?> GetOneAsync(int id) => await _context.WorkItems.FindAsync(id); // primary key lookup
 
         public async Task<WorkItem?> UpdateOneAsync(WorkItem dto)

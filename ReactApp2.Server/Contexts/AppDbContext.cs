@@ -11,6 +11,9 @@ namespace ReactApp2.Server.Infrastructure
                 .HasQueryFilter(t => !t.IsDeleted);  // automatically exclude soft-deletes
             modelBuilder.Entity<WorkItem>()
                 .HasQueryFilter(t => !t.IsDeleted);  // automatically exclude soft-deletes
+
+            modelBuilder.Entity<WorkItem>()
+                .HasIndex(w => w.ChecklistId); // <-- creates the index
         }
 
         public DbSet<Checklist> Checklists { get; set; }

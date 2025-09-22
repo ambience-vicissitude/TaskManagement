@@ -28,7 +28,15 @@ namespace ReactApp2.Server.Controllers
         // Get all work items for a user group/team (user id from auth token)
         // Active work items only (not deleted)
         [HttpGet(Name = "GetWorkItems")]
-        public async Task<IActionResult> GetAll() => Ok(await _service.GetAllActiveAsync());
+        public async Task<IActionResult> GetAll([FromQuery] int? checklistId)
+        {
+            var items = await _service.GetAllActiveAsync(checklistId); // async call
+
+            if (!items.Any())
+                return NotFound();
+
+            return Ok(items);
+        }
 
         // Get /workitem/{id}
         // Get a workitem by id
