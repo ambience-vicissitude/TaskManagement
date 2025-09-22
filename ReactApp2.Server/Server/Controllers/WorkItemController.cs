@@ -47,7 +47,7 @@ namespace ReactApp2.Server.Controllers
         {
             var item = await _service.GetOneAsync(id);
             if (item == null) return NotFound();
-            return Ok();
+            return Ok(item);
         }
 
         // Post /workitem
