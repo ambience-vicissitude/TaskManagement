@@ -46,7 +46,22 @@ export async function getWorkItem(id: number): Promise<WorkItem> {
     return res.json()
 }
 
-// ---- UPDATE ----
+
+// ---- PATCH COMPLETE ----
+// semantically this is a partial update of checklist entity (only affecting its 'completed' field)
+export async function patchWorkItemAsCompleteOrIncomplete(
+    id: number,
+    isComplete: boolean
+): Promise<WorkItem> {
+    const res = await fetch(`${API_BASE}/${id}?isComplete=${isComplete}`, {
+        method: "PATCH",
+    })
+    if (!res.ok) throw new Error(`Failed to patch completion for work item ${id}`)
+    return res.json()
+}
+
+// ---- PUT UPDATE ----
+// semantically this is a near-full update of workitem entity (without affecting its possible checklist relationship)
 export async function updateWorkItem(id: number, data: Partial<WorkItem>): Promise<WorkItem> {
     const res = await fetch(`${API_BASE}/${id}`, {
         method: "PUT",

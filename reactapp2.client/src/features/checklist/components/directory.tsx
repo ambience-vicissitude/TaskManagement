@@ -13,7 +13,7 @@
  */
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { getChecklists, createChecklist, deleteChecklist } from "../api"
+import { getChecklists, createChecklist, deleteChecklist, patchChecklistAsCompleteOrIncomplete } from "../api"
 import type Checklist from '../model'
 import { useState } from "react"
 
@@ -22,17 +22,38 @@ export default function ChecklistDirectory() {
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
 
-    // READ
+    // READ checklists
     const { data: checklists, error, isLoading } = useQuery({
         queryKey: ["checklists"],
         queryFn: getChecklists,
+
+        // auto-refetch is a polling interval strategy to keep the list update under the hood
+        //
+        // TODO: make an app .env or settings
+        // TODO: add a UX 'last updated' message and make sure the user is not seeing glitches of updates
+        //
+        // the con to the refetch is if there's some error or hanging request,
+        // this doesn't stop useQuery from trying and retrying the problematic request again and again in the browser
+        refetchInterval: 5_000,
     })
+
+    // READ by Refresh
+    // TODO: should add a UX loader
+    const refreshNow = () => queryClient.invalidateQueries({ queryKey: ['checklists'] })
 
     // CREATE
     // - will invalidate current list of checklists and refetch from server
     // - balancing latest update from other users CRUD-ing checklists
     const createMutation = useMutation({
         mutationFn: createChecklist,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["checklists"] }),
+    })
+
+    // PATCH ISCOMPLETE
+    // - will invalidate current list of checklists and refetch from server
+    // - balancing latest update from other users CRUD-ing checklists
+    const patchCompletionMutation = useMutation({
+        mutationFn: async ({ id, isComplete }: { id: number; isComplete: boolean }) => patchChecklistAsCompleteOrIncomplete(id, isComplete),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["checklists"] }),
     })
 
@@ -55,6 +76,9 @@ export default function ChecklistDirectory() {
     return (
         <div>
             <h2>Checklists</h2>
+            <button onClick={refreshNow}>
+                Refresh
+            </button>
             <ul>
                 {checklists?.map((cl: Checklist) => {
                     return (
@@ -63,7 +87,18 @@ export default function ChecklistDirectory() {
                             <a href={`/checklist/${cl.id}`} style={{ fontWeight: "bold" }}>
                                 {cl.name}
                             </a>
-                            <span>Work Items completed (TODO:)</span>
+                            <span>Work Items completed (TODO:): </span>
+                            <span>Done? :</span>
+                            <input
+                                type="checkbox"
+                                checked={cl.isComplete}
+                                onChange={(e) =>
+                                    patchCompletionMutation.mutate({
+                                        id: cl.id,
+                                        isComplete: e.target.checked,
+                                    })
+                                }
+                            />
                             <button
                                 onClick={() => deleteMutation.mutate(cl.id)}
                                 style={{ marginLeft: "1rem" }}

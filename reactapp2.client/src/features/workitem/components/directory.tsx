@@ -13,7 +13,7 @@
  */
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { getWorkItems, createWorkItem, deleteWorkItem } from "../api"
+import { getWorkItems, createWorkItem, deleteWorkItem, patchWorkItemAsCompleteOrIncomplete } from "../api"
 import type WorkItem from '../model'
 import { useState } from "react"
 
@@ -26,11 +26,24 @@ const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) =>
     const [name, setName] = useState("")
     const [description, setDescription] = useState("")
 
-    // READ
+    // READ workItems
     const { data: workItems, error, isLoading } = useQuery({
         queryKey: ["workItems", checklistId],
         queryFn: () => getWorkItems(checklistId),
+
+        // auto-refetch is a polling interval strategy to keep the list update under the hood
+        //
+        // TODO: make an app .env or settings
+        // TODO: add a UX 'last updated' message and make sure the user is not seeing glitches of updates
+        //
+        // the con to the refetch is if there's some error or hanging request,
+        // this doesn't stop useQuery from trying and retrying the problematic request again and again in the browser
+        refetchInterval: 5_000,
     })
+
+    // READ by Refresh
+    // TODO: should add a UX loader
+    const refreshNow = () => queryClient.invalidateQueries({ queryKey: ['workItems'] })
 
     // CREATE
     // - will invalidate current list of work items and refetch from server
@@ -38,6 +51,14 @@ const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) =>
     const createMutation = useMutation({
         mutationFn: createWorkItem,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workItems", checklistId] }),
+    })
+
+    // PATCH ISCOMPLETE
+    // - will invalidate current list of work items and refetch from server
+    // - balancing latest update from other users CRUD-ing work items
+    const patchCompletionMutation = useMutation({
+        mutationFn: async ({ id, isComplete }: { id: number; isComplete: boolean }) => patchWorkItemAsCompleteOrIncomplete(id, isComplete),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workItems"] }),
     })
 
     // DELETE
@@ -56,6 +77,9 @@ const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) =>
     return (
         <div>
             <h2>Work Items</h2>
+            <button onClick={refreshNow}>
+                Refresh
+            </button>
             <ul>
 
                 {workItems?.map((wi: WorkItem) => {
@@ -65,7 +89,18 @@ const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) =>
                             <a href={`/workitem/${wi.id}`} style={{ fontWeight: "bold" }}>
                                 {wi.name}
                             </a>
-                            <span>Work Item Status</span>
+                            <span>Work Item Status: </span>
+                            <span>Done? :</span>
+                            <input
+                                type="checkbox"
+                                checked={wi.isComplete}
+                                onChange={(e) =>
+                                    patchCompletionMutation.mutate({
+                                        id: wi.id,
+                                        isComplete: e.target.checked,
+                                    })
+                                }
+                            />
                             <button
                                 onClick={() => deleteMutation.mutate(wi.id)}
                                 style={{ marginLeft: "1rem" }}

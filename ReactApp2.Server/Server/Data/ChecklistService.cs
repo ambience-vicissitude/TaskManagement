@@ -25,12 +25,12 @@ namespace ReactApp2.Server.Data
         public ChecklistService(AppDbContext context) => _context = context;
         public async Task<IEnumerable<Checklist>> GetAllActiveAsync() => await _context.Checklists.ToListAsync();
         public async Task<Checklist?> GetOneAsync(int id) => await _context.Checklists.FindAsync(id); // primary key lookup
-        public async Task<Checklist?> MarkAsCompleteOrIncomplete(int id, bool completed)
+        public async Task<Checklist?> MarkAsCompleteOrIncomplete(int id, bool isComplete)
         {
             // Query first, then mutate, utilizing EF Core change tracking and not on LINQ select
             var item = await _context.Checklists.FirstOrDefaultAsync(c => c.Id == id);
             if (item == null) return null;
-            item.IsComplete = completed;
+            item.IsComplete = isComplete;
             await _context.SaveChangesAsync();
             return item;
         }

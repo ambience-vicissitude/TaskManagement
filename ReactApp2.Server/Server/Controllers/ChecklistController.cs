@@ -31,6 +31,12 @@ namespace ReactApp2.Server.Controllers
         // Get /checklist
         // Get all checklists for a user group/team (user id from auth token)
         // Active checklists only (not deleted)
+        //
+        // Remarks:
+        // The empty case for items is [], to simplify for a small app
+        // less error-handling, we will go with Ok([]) as acceptable.
+        // moreover, it should not be an error if no checklists are found, a brand new instance of the app
+        // or a user-permission based checklist directory would show no checklists and not be an error case
         [HttpGet(Name = "GetChecklists")]
         public async Task<IActionResult> GetAll() => Ok(await _service.GetAllActiveAsync());
 
@@ -38,8 +44,17 @@ namespace ReactApp2.Server.Controllers
         // Get a checklist by id
         // Populate checklist with tasks with a basic join
         // Validate checklist is allowed by the user
+        //
+        // Remarks:
+        // Contrary to 'GetAll' or 'Get 2+', not finding a specific checklist
+        // warrants a NotFound() reponse
         [HttpGet("{id}", Name = "GetChecklist")]
-        public async Task<IActionResult> GetOne(int id) => Ok(await _service.GetOneAsync(id));
+        public async Task<IActionResult> GetOne(int id)
+        {
+            var item = await _service.GetOneAsync(id);
+            if (item == null) return NotFound();
+            return Ok();
+        }
 
         // Post /checklist
         // Create new checklist, return new checklist with id
@@ -50,14 +65,13 @@ namespace ReactApp2.Server.Controllers
 
         // Update / checklist/{id}
         // Update checklist as complete or incomplete, return updated checklist
+        // - accepts from query the 'isComplete' boolean
+        // - it is unlikely this call will need many more fields if expanded
         [HttpPatch("{id}", Name = "MarkChecklistAsCompleteOrIncomplete")]
-        public async Task<IActionResult> PatchChecklistCompletion(int id, bool isComplete)
+        public async Task<IActionResult> PatchChecklistCompletion(int id, [FromQuery] bool isComplete)
         {
             var item = await _service.MarkAsCompleteOrIncomplete(id, isComplete);
-            if (item == null)
-            {
-                return NotFound();
-            }
+            if (item == null) NotFound();
             return Ok(item);
         }
 
@@ -70,10 +84,7 @@ namespace ReactApp2.Server.Controllers
         [HttpPut("{id}", Name = "UpdateChecklist")]
         public async Task<IActionResult> UpdateOne(int id, Checklist dto)
         {
-            if (id != dto.Id)
-            {
-                return BadRequest("ID in URL does not match ID in body");
-            }
+            if (id != dto.Id) return BadRequest("ID in URL does not match ID in body");
             return Ok(await _service.UpdateOneAsync(dto));
         }
 
@@ -88,10 +99,7 @@ namespace ReactApp2.Server.Controllers
         public async Task<IActionResult> DeleteOne(int id)
         {
             var success = await _service.SoftDeleteOneAsync(id);
-            if (!success)
-            {
-                return NotFound();
-            }
+            if (!success) return NotFound();
             return NoContent();
         }
     }

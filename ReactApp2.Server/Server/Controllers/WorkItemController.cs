@@ -26,23 +26,29 @@ namespace ReactApp2.Server.Controllers
         // Get /workitem
         // Get all work items for a user group/team (user id from auth token)
         // Active work items only (not deleted)
+        //
+        // Remarks:
+        // The empty case for items is [], to simplify for a small app
+        // less error-handling, we will go with Ok([]) as acceptable.
+        // moreover, checklist agnostic or not, it should not be an error if no work items are found
         [HttpGet(Name = "GetWorkItems")]
-        public async Task<IActionResult> GetAll([FromQuery] int? checklistId)
-        {
-            var items = await _service.GetAllActiveAsync(checklistId); // async call
-
-            if (!items.Any())
-                return NotFound();
-
-            return Ok(items);
-        }
+        public async Task<IActionResult> GetAll([FromQuery] int? checklistId) => Ok(await _service.GetAllActiveAsync(checklistId));
 
         // Get /workitem/{id}
         // Get a workitem by id
         // Populate work item with tasks with a basic join
         // Validate work item is allowed by the user
+        //
+        // Remarks:
+        // Contrary to 'GetAll' or 'Get 2+', not finding a specific checklist
+        // warrants a NotFound() reponse
         [HttpGet("{id}", Name = "GetWorkItem")]
-        public async Task<IActionResult> GetOne(int id) => Ok(await _service.GetOneAsync(id));
+        public async Task<IActionResult> GetOne(int id)
+        {
+            var item = await _service.GetOneAsync(id);
+            if (item == null) return NotFound();
+            return Ok();
+        }
 
         // Post /workitem
         // Create new work item, return new workitem with id
@@ -53,14 +59,13 @@ namespace ReactApp2.Server.Controllers
 
         // Update / workitem/{id}
         // Update workitem as complete or incomplete, return updated workitem
+        // - accepts from query the 'isComplete' boolean
+        // - it is unlikely this call will need many more fields if expanded
         [HttpPatch("{id}", Name = "MarkWorkItemAsCompleteOrIncomplete")]
-        public async Task<IActionResult> PatchWorkItemCompletion(int id, bool isComplete)
+        public async Task<IActionResult> PatchWorkItemCompletion(int id, [FromQuery] bool isComplete)
         {
             var item = await _service.MarkAsCompleteOrIncomplete(id, isComplete);
-            if (item == null)
-            {
-                return NotFound();
-            }
+            if (item == null) return NotFound();
             return Ok(item);
         }
 
@@ -73,10 +78,7 @@ namespace ReactApp2.Server.Controllers
         [HttpPut("{id}", Name = "UpdateWorkItem")]
         public async Task<IActionResult> UpdateOne(int id, WorkItem dto)
         {
-            if (id != dto.Id)
-            {
-                return BadRequest("ID in URL does not match ID in body");
-            }
+            if (id != dto.Id) return BadRequest("ID in URL does not match ID in body");
             return Ok(await _service.UpdateOneAsync(dto));
         }
 
@@ -91,10 +93,7 @@ namespace ReactApp2.Server.Controllers
         public async Task<IActionResult> DeleteOne(int id)
         {
             var success = await _service.SoftDeleteOneAsync(id);
-            if (!success)
-            {
-                return NotFound();
-            }
+            if (!success) return NotFound();
             return NoContent();
         }
     }

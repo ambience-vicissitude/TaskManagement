@@ -33,12 +33,12 @@ namespace ReactApp2.Server.Data
         }
 
         public async Task<WorkItem?> GetOneAsync(int id) => await _context.WorkItems.FindAsync(id); // primary key lookup
-        public async Task<WorkItem?> MarkAsCompleteOrIncomplete(int id, bool completed)
+        public async Task<WorkItem?> MarkAsCompleteOrIncomplete(int id, bool isComplete)
         {
             // Query first, then mutate, utilizing EF Core change tracking and not on LINQ select
             var item = await _context.WorkItems.FirstOrDefaultAsync(c => c.Id == id);
             if (item == null) return null;
-            item.IsComplete = completed;
+            item.IsComplete = isComplete;
             await _context.SaveChangesAsync();
             return item;
         }
