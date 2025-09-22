@@ -12,7 +12,7 @@ import type WorkItem from "./model"
 const API_BASE = "/api/workitem"
 
 // ---- CREATE ----
-export async function createWorkItem(data: { name: string, description: string }): Promise<WorkItem> {
+export async function createWorkItem(data: { name: string, description: string, checklistId: number }): Promise<WorkItem> {
     const res = await fetch(API_BASE, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -24,9 +24,19 @@ export async function createWorkItem(data: { name: string, description: string }
 
 // ---- READ ----
 export async function getWorkItems(checklistId: number): Promise<WorkItem[]> {
-    console.log("TODO: Fetching work items for checklist ID:", checklistId);
-    const res = await fetch(`${API_BASE}`)
-    if (!res.ok) throw new Error(`Failed to fetch work items for all checklists`)
+
+    // Prepare the url
+    let url = `${API_BASE}`;
+    if (checklistId !== undefined) url += `?checklistId=${checklistId}`;
+
+    // Fetch
+    const res = await fetch(url)
+
+    if (!res.ok) throw new Error(
+        checklistId !== undefined
+            ? `Failed to fetch work items for checklist ${checklistId}`
+            : `Failed to fetch work items for all checklists`
+        )
     return res.json()
 }
 

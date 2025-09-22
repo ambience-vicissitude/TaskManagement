@@ -49,5 +49,7 @@ namespace ReactApp2.Server.Models
         public string? Name { get; set; }
         [StringLength(500)]
         public string? Description { get; set; }
+        // Foreign key to Checklist, can be null if not part of any checklist, is indexed for performance
+        public int? ChecklistId { get; set; }
     }
 }

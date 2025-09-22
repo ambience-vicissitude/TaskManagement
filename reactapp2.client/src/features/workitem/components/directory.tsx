@@ -28,20 +28,26 @@ const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) =>
 
     // READ
     const { data: workItems, error, isLoading } = useQuery({
-        queryKey: ["checklistId", checklistId],
+        queryKey: ["workItems", checklistId],
         queryFn: () => getWorkItems(checklistId),
     })
 
     // CREATE
+    // - will invalidate current list of work items and refetch from server
+    // - balancing latest update from other users populating the same list for less optimistic on the caching being source of truth
     const createMutation = useMutation({
         mutationFn: createWorkItem,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workItems"] }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workItems", checklistId] }),
     })
 
     // DELETE
+    // - will invalidate current list of work items and refetch from server
+    // - balancing latest update from other users populating the same list for less optimistic on the caching being source of truth
+
+    // FIXME: figure out why this doesn't trigger the refetch of work items
     const deleteMutation = useMutation({
         mutationFn: deleteWorkItem,
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workItems"] }),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["workItems", checklistId] }),
     })
 
     if (isLoading) return <p>Loading workItems...</p>
@@ -52,11 +58,11 @@ const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) =>
             <h2>Work Items</h2>
             <ul>
             {
-                workItems?.map((cl: WorkItem) => (
-                    <li key= { cl.id } >
-                    <strong>{ cl.name } </strong>{" "}
-                    < button onClick = {() => deleteMutation.mutate(cl.id)}> Delete </button>
-                        </li>
+                workItems?.map((wi: WorkItem) => (
+                    <li key={ wi.id } >
+                        <strong>{wi.name } </strong>{" "}
+                        < button onClick = {() => deleteMutation.mutate(wi.id)}> Delete </button>
+                    </li>
                 ))
             }
             </ul>
@@ -65,7 +71,7 @@ const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) =>
                 onSubmit = {(e) => {
                     e.preventDefault()
                     if (name.trim()) {
-                        createMutation.mutate({ name, description })
+                        createMutation.mutate({ name, description, checklistId })
                         setName("")
                     }
                 }}

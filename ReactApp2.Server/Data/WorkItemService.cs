@@ -48,7 +48,8 @@ namespace ReactApp2.Server.Business
             var item = new WorkItem
             {
                 Name = dto.Name,
-                Description = dto.Description
+                Description = dto.Description,
+                ChecklistId = dto.ChecklistId
             };
 
             _context.WorkItems.Add(item);

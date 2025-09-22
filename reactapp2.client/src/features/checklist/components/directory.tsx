@@ -29,16 +29,25 @@ export default function ChecklistDirectory() {
     })
 
     // CREATE
+    // - will invalidate current list of checklists and refetch from server
+    // - balancing latest update from other users CRUD-ing checklists
     const createMutation = useMutation({
         mutationFn: createChecklist,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["checklists"] }),
     })
 
     // DELETE
+    // - will invalidate current list of checklists and refetch from server
+    // - balancing latest update from other users CRUD-ing checklists
     const deleteMutation = useMutation({
         mutationFn: deleteChecklist,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["checklists"] }),
     })
+
+    // TODO: better use of 
+    // https://tanstack.com/query/latest/docs/framework/react/guides/mutations?from=reactQueryV3#_top
+    // https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates#via-the-cache
+    // cancellation and invalidation
 
     if (isLoading) return <p>Loading checklists...</p>
     if (error) return <p style={{ color: "red" }}>Error: {(error as Error).message}</p>
@@ -47,12 +56,23 @@ export default function ChecklistDirectory() {
         <div>
             <h2>Checklists</h2>
             <ul>
-                {checklists?.map((cl: Checklist) => (
-                    <li key={cl.id}>
-                        <strong>{cl.name}</strong>{" "}
-                        <button onClick={() => deleteMutation.mutate(cl.id)}>Delete</button>
-                    </li>
-                ))}
+                {checklists?.map((cl: Checklist) => {
+                    return (
+                        <li key={cl.id} style={{ marginBottom: "0.5rem" }}>
+                            {/* Link to checklist page */}
+                            <a href={`/checklist/${cl.id}`} style={{ fontWeight: "bold" }}>
+                                {cl.name}
+                            </a>
+                            <span>Work Items completed (TODO:)</span>
+                            <button
+                                onClick={() => deleteMutation.mutate(cl.id)}
+                                style={{ marginLeft: "1rem" }}
+                            >
+                                Delete
+                            </button>
+                        </li>
+                    );
+                })}
             </ul>
 
             <form
