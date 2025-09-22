@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ReactApp2.Server.Business;
-using ReactApp2.Server.Infrastructure;
+using ReactApp2.Server.Data;
 using ReactApp2.Server.Models;
 
 namespace ReactApp2.Server.Controllers
@@ -11,8 +10,13 @@ namespace ReactApp2.Server.Controllers
     /// </summary>
     /// <remarks>
     /// All endpoints require authentication and operate on checklists accessible to the current
-    /// user. Deleted checklists are archived and scheduled for permanent deletion after 30 days unless restored.
+    /// user.
+    /// 
+    /// Deleted checklists are archived and scheduled for permanent deletion after 30 days unless restored.
     /// WorkItems associated with checklists are not deleted when a checklist is archived or removed.
+    /// 
+    /// WorkItems associated with checklists are not automatically marked as complete or incomplete when a checklist is marked as such.
+    /// A separate operation is required to update the status of individual WorkItems.
     /// 
     /// IActionResult is used for flexibility in returning various HTTP status codes and responses
     /// over directly returning Checklist objects, which may limit response options.
@@ -43,6 +47,19 @@ namespace ReactApp2.Server.Controllers
         // Checklist in body, id ignored
         [HttpPost(Name = "CreateChecklist")]
         public async Task<IActionResult> CreateOne(CreateChecklist dto) => Ok(await _service.CreateOneAsync(dto));
+
+        // Update / checklist/{id}
+        // Update checklist as complete or incomplete, return updated checklist
+        [HttpPatch("{id}", Name = "MarkChecklistAsCompleteOrIncomplete")]
+        public async Task<IActionResult> PatchChecklistCompletion(int id, bool isComplete)
+        {
+            var item = await _service.MarkAsCompleteOrIncomplete(id, isComplete);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
 
         // Update / checklist/{id}
         // Update checklist, return updated checklist

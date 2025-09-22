@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ReactApp2.Server.Business;
-using ReactApp2.Server.Infrastructure;
+using ReactApp2.Server.Contexts;
+using ReactApp2.Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,28 +23,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IWorkItemService, WorkItemService>();
 builder.Services.AddScoped<IChecklistService, ChecklistService>();
 
-
 var app = builder.Build();
-
 
 // Ensure database is created and migrations are applied
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    //db.Database.EnsureCreated();
+
+    //db.Database.EnsureCreated(); // initial creation, not needed after first commit
     db.Database.Migrate(); // applies migrations; creates DB if it doesn't exist
-
-    // Optional: Seed initial data
-    //if (!db.WorkItems.Any())
-    //{
-    //    db.WorkItems.AddRange(new[]
-    //    {
-    //        new WorkItem { Name = "Initial Todo 1" },
-    //        new WorkItem { Name = "Initial Todo 2" }
-    //    });
-
-    //    db.SaveChanges();
-    //}
 }
 
 app.UseDefaultFiles();
@@ -56,12 +43,16 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+// OAuth2 is a must for any production product, but out of scope for this demo
+//app.UseAuthentication();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-//app.MapFallbackToFile("/index.html");
+// TODO: I would look into if this serves well/poorly as the `Catch-all to serve index.html for SPA routes`
+app.MapFallbackToFile("/index.html");
 
 app.Run();

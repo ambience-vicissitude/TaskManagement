@@ -9,18 +9,33 @@ export const Route = createFileRoute('/checklist/$checklistId')({
 
 function ChecklistDetailRouteComponent() {
     const { checklistId } = Route.useParams()
+    const id = parseInt(checklistId, 10);
+
+    // fetch checklist on condition there is a valid integer id
     const { data: checklist } = useQuery({
-        queryKey: ["checklist", checklistId],
-        queryFn: () => getChecklist(parseInt(checklistId, 10)),
+        queryKey: ["checklist", id],
+        queryFn: () => getChecklist(id),
+        enabled: Number.isInteger(id),
     })
 
+    // TODO: handle possible errors from useQuery
+
+    // Error state
+    // parseInt returns NaN if no int found, but !id adds some robustness
+    if (!id || isNaN(id)) {
+        // TODO: better error handling component
+        return <p>Invalid checklist ID.</p>;
+    }
+
+    // Loading state
     if (!checklist) return <p>Loading...</p>
-    console.log(checklist);
+
+    // Main render
     return (
         <div>
             <h2>{checklist.name}</h2>
             <p>{checklist.description}</p>
-            <ChecklistDetailPage id={parseInt(checklistId, 10)} />
+            <ChecklistDetailPage id={id} />
         </div>
     )
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReactApp2.Server.Models;
 
-namespace ReactApp2.Server.Infrastructure
+namespace ReactApp2.Server.Contexts
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {

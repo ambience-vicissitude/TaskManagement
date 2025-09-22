@@ -16,7 +16,6 @@ function WorkItemRouteComponent() {
     })
 
     if (!workItem) return <p>Loading...</p>
-    console.log(workItem);
     return (
         <div>
             <h2>{workItem.name}</h2>

@@ -57,14 +57,24 @@ const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) =>
         <div>
             <h2>Work Items</h2>
             <ul>
-            {
-                workItems?.map((wi: WorkItem) => (
-                    <li key={ wi.id } >
-                        <strong>{wi.name } </strong>{" "}
-                        < button onClick = {() => deleteMutation.mutate(wi.id)}> Delete </button>
-                    </li>
-                ))
-            }
+
+                {workItems?.map((wi: WorkItem) => {
+                    return (
+                        <li key={wi.id} style={{ marginBottom: "0.5rem" }}>
+                            {/* Link to work items detail page */}
+                            <a href={`/workitem/${wi.id}`} style={{ fontWeight: "bold" }}>
+                                {wi.name}
+                            </a>
+                            <span>Work Item Status</span>
+                            <button
+                                onClick={() => deleteMutation.mutate(wi.id)}
+                                style={{ marginLeft: "1rem" }}
+                            >
+                                Delete
+                            </button>
+                        </li>
+                    );
+                })}
             </ul>
 
             <form

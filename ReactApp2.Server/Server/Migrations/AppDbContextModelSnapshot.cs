@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ReactApp2.Server.Infrastructure;
+using ReactApp2.Server.Contexts;
 
 #nullable disable
 

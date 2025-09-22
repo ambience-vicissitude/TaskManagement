@@ -1,4 +1,5 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router"
+import FooterComponent from "../features/layout/footer"
 
 export default function Root() {
     return (
@@ -6,6 +7,7 @@ export default function Root() {
             <h1>Task Management App</h1>
             <hr />
             <Outlet />
+            <FooterComponent />
         </div>
     )
 }

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ReactApp2.Server.Business;
-using ReactApp2.Server.Infrastructure;
+using ReactApp2.Server.Data;
 using ReactApp2.Server.Models;
 
 namespace ReactApp2.Server.Controllers
@@ -51,6 +50,19 @@ namespace ReactApp2.Server.Controllers
         // WorkItem in body, id ignored
         [HttpPost(Name = "CreateWorkItem")]
         public async Task<IActionResult> CreateOne(CreateWorkItem dto) => Ok(await _service.CreateOneAsync(dto));
+
+        // Update / workitem/{id}
+        // Update workitem as complete or incomplete, return updated workitem
+        [HttpPatch("{id}", Name = "MarkWorkItemAsCompleteOrIncomplete")]
+        public async Task<IActionResult> PatchWorkItemCompletion(int id, bool isComplete)
+        {
+            var item = await _service.MarkAsCompleteOrIncomplete(id, isComplete);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            return Ok(item);
+        }
 
         // Update / workitem/{id}
         // Update work item, return updated work item
