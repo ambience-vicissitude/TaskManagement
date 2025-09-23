@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReactApp2.Server.Contexts;
 using ReactApp2.Server.Data;
+using ReactApp2.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +17,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Add Service that supports soft-delete, periodic cleanup of soft-deleted items
 // it is not a reliable long term solution, but for sqllite demo purposes it is sufficient
-//builder.Services.AddHostedService<WorkItemCleanupService>();
-//builder.Services.AddHostedService<WorkItemCleanupService>();
+builder.Services.AddHostedService<ChecklistCleanupService>();
+builder.Services.AddHostedService<WorkItemCleanupService>();
 
 // Add Data Services
 builder.Services.AddScoped<IWorkItemService, WorkItemService>();

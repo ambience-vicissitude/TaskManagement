@@ -20,6 +20,9 @@ namespace ReactApp2.Server.Models
         public bool IsComplete { get; set; }
 
         // Soft delete flag, can be extended to include 'DeletedAt' timestamp
+        //
+        // remarks: IsDeleted could be redundant as DeletedAt != null could imply deletion, IsDeleted is more explicit and can simplify queries
+        // but for a small app and no code review done, we can keep it for now, risk the possibility of inconsistency
         public bool IsDeleted { get; set; } = false;
 
         // Track when it was deleted
