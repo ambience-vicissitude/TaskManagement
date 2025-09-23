@@ -28,7 +28,7 @@ import AddItemForm from "../../layout/AddItemForm"
  * 
  * @returns rendering
  */
-export default function ChecklistDirectory() {
+function ChecklistDirectory() {
     const queryClient = useQueryClient()
 
     // READ checklists
@@ -112,3 +112,5 @@ export default function ChecklistDirectory() {
         </div>
     )
 }
+
+export default ChecklistDirectory;

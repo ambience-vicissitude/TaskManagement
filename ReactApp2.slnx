@@ -4,4 +4,5 @@
     <Deploy />
   </Project>
   <Project Path="ReactApp2.Server/ReactApp2.Server.csproj" />
+  <Project Path="ReactApp2.Tests/ReactApp2.Tests.csproj" />
 </Solution>

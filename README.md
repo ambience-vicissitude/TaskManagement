@@ -32,6 +32,8 @@ There are no current plans to deploy, so I will leave this section blank.
 
 ## Features
 
+Please also read `FEATURES.md` for more details.
+
 ### Crud
 
 - **CRUD of a checklist**
@@ -62,6 +64,7 @@ Note: Due to time constraints, the 'editing' of an existing work item or checkli
 ## Future enhancements 
 
 Future aspirations include moving in the 'Atlassian - JIRA' or 'Azure DevOps' direction in turning the 'work items' into more of a ticket system.
+Please also read `FEATURES.md` for more details.
 
 ### Prioritization and Assignment
 
@@ -82,7 +85,7 @@ Future aspirations include moving in the 'Atlassian - JIRA' or 'Azure DevOps' di
 ### UI Polishing
 
 - any permanent/consequential user actions could have a 'Are you sure?' prompt to prevent human error, for example: deleting or editting
-- when deleting something, the ui does hang a few moments longer than expected, so a transitional state will improve the UX
+- when deleting something, the ui does hang a few moments longer than expected, so a transitional state will improve the UX 
 
 ### Visualization
 

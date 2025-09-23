@@ -39,7 +39,7 @@ function WorkItemDetail({
                 <p className="mb-4 text-gray-500">Category: {category}</p>
             )}
             {dueDate && (
-                <p className="mb-4 text-gray-500">Due: {new Date(dueDate).toDateString()}</p>
+                <p className="mb-4 text-gray-500">{`Due: ${new Date(dueDate).toDateString()}`}</p>
             )}
 
             <button

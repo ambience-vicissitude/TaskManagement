@@ -6,12 +6,17 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
     plugins: [react()],
     test: {
-        browser: {
-            enabled: true,
-            provider: 'playwright',
-            instances: [
-                { browser: 'chromium' },
-            ],
-        },
+        globals: true,       // use global test(), expect()
+        environment: 'jsdom', // simulate browser environment
+        include: ['tests/**/*.{test,spec}.{ts,tsx}'], // which files to run
+
+        // TODO: enable playwright when ready
+        //browser: {
+        //    enabled: true,
+        //    provider: 'playwright',
+        //    instances: [
+        //        { browser: 'chromium' },
+        //    ],
+        //},
     },
 })

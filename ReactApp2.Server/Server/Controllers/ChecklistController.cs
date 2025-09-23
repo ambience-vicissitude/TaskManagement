@@ -71,7 +71,7 @@ namespace ReactApp2.Server.Controllers
         public async Task<IActionResult> PatchChecklistCompletion(int id, [FromQuery] bool isComplete)
         {
             var item = await _service.MarkAsCompleteOrIncomplete(id, isComplete);
-            if (item == null) NotFound();
+            if (item == null) return NotFound();
             return Ok(item);
         }
 

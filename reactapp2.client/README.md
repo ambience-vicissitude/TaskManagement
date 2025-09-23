@@ -67,3 +67,25 @@ export default tseslint.config([
   },
 ])
 ```
+
+## Stand-alone run
+```bash
+npm i
+npm run generateRoutes
+npm run dev
+```
+
+or `npm run preview` to run with a preview server.
+
+You can skip `npm run generateRoutes` if file-based routing `src/app/routeTree.gen.ts` is already auto-generated. Edit that auto-generated file only if you have a specific intent.
+
+## Building
+```bash
+npm run build
+```
+
+## Testing
+
+```bash
+npm test
+```

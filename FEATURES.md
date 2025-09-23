@@ -24,8 +24,8 @@ This is my developer's 'backlog' board, which doubles as a documentation of the 
 
 ## Testing HelloWorld
 
-[ ] - checklist.test.ts
-[ ] - workitem.test.ts
+[x] - workitem feature unit testing
+[ ] - checklist feature unit testing
 [ ] - basic test for checklist controller
 [ ] - basic test for checklist dbcontext
 [ ] - basic test for workitem controller
@@ -46,16 +46,21 @@ This is my developer's 'backlog' board, which doubles as a documentation of the 
     - went with a .net service for now to manage completed work items and checklists
     - the same concept can be applied if work items and checklists become time-sensitive (archived, expired, due date reached, not yet started, etc.)
 [x] - notable indices added
-[ ] - basic CSS to pretty it up
+[x] - basic CSS to pretty it up
 [ ] - lint
 [ ] - feature that counts your achieved tasks in one day 'positive feedback for users'
-[ ] - clean up your docstrings
+[x] - clean up your docstrings
 
 ## Tradeoffs/Assumptions
 
 Why did I skip testing?
 
 - In any business or real-life scenario, testing is the verification needed to confirm code is ready and shippable. However, testing is the bottom half of the iceberg, and I wanted to show results within the _one week timeframe_ I had. Also I was working with technologies I was not actively using in my day job's current tech stack (Python FastAPI, Javascript without TS, Open Web Components), I needed to focus on reapplying my full stack skills on different tools to do the same thing (.NET Core EF, Typescript, React). I believe what I've written shows I can ramp up very quickly, like playing the same sport but as the Away team in a different environment. However, it never felt right to skip thorough coverage testing, I preferred to have done them.
+- update: I did add workItem feature testing on the frontend and checklist feature testing on the backend, the conceptual intent here is to show my knowledge, but also noting that better coverage should be done in a production-ready scenario.
+
+Why did I choose the testing libraries that I did?
+
+- In honesty, I didn't take time to go over its tradeoffs, I only ensured I picked a testing approach that was commonly used and has good support.
 
 How did I decide on structure of my folders?
 

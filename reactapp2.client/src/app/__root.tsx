@@ -6,7 +6,7 @@
  */
 
 import { createRootRoute, Outlet } from "@tanstack/react-router"
-import FooterComponent from "../features/layout/footer"
+import FooterComponent from "../features/layout/Footer"
 
 export default function Root() {
     return (
