@@ -31,20 +31,23 @@ interface DirectoryListProps {
  */
 function DirectoryList({ items, onCardClick, onToggleComplete, onDelete }: DirectoryListProps) {
     return (
-        <div className="grid gap-4">
-            {items.map((item) => (
-                <DirectoryCard
-                    key={item.id}
-                    item={item}
-                    //completed={completed}
-                    //total={total}
-                    onClick={() => onCardClick?.(item.id)}
-                    onComplete={onToggleComplete}
-                    onEdit={() => console.log("Edit", item.id)}
-                    onDelete={onDelete}
-                />
-            ))}
-        </div>
+        <>
+            <div className="grid gap-4">
+                Completed: {items.filter(item => item.isComplete).length} / {items.length}
+            </div>
+            <div className="grid gap-4">
+                {items.map((item) => (
+                    <DirectoryCard
+                        key={item.id}
+                        item={item}
+                        onClick={() => onCardClick?.(item.id)}
+                        onComplete={onToggleComplete}
+                        onEdit={() => console.log("Edit", item.id)}
+                        onDelete={onDelete}
+                    />
+                ))}
+            </div>
+        </>
     );
 }
 
