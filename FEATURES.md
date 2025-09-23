@@ -26,8 +26,8 @@ This is my developer's 'backlog' board, which doubles as a documentation of the 
 
 [x] - workitem feature unit testing
 [ ] - checklist feature unit testing
-[ ] - basic test for checklist controller
-[ ] - basic test for checklist dbcontext
+[x] - basic test for checklist controller
+[x] - basic test for checklist dbcontext
 [ ] - basic test for workitem controller
 [ ] - basic test for workitem dbcontext
 
@@ -47,7 +47,7 @@ This is my developer's 'backlog' board, which doubles as a documentation of the 
     - the same concept can be applied if work items and checklists become time-sensitive (archived, expired, due date reached, not yet started, etc.)
 [x] - notable indices added
 [x] - basic CSS to pretty it up
-[ ] - lint
+[x] - lint
 [ ] - feature that counts your achieved tasks in one day 'positive feedback for users'
 [x] - clean up your docstrings
 
@@ -61,6 +61,8 @@ Why did I skip testing?
 Why did I choose the testing libraries that I did?
 
 - In honesty, I didn't take time to go over its tradeoffs, I only ensured I picked a testing approach that was commonly used and has good support.
+- Moq + XUnit to get some mocking and test runner for C#/.NET
+- JSDOM + vitest to keep vite/vitest as the main tool and jsdom to simulate
 
 How did I decide on structure of my folders?
 

@@ -158,6 +158,7 @@ The following is a list of known issues that came up during development which ha
 - error handling and request case handling, for prototype and speed I went with the default IActionResult OK() NotFound(), however, there is a case for creating custom status code handlers, custom error / exception handlers and classes, such that you can control the access of information or modify exception messaging to show or hide stack traces or make messages more readable to the target recipient of that exception.
     - For example, an end-user should not see details of an SQL crash report or a .NET stack trace, they should see something simple but not default. They could read an error message directly from the backend that denotes 500 Internal Server Error but also be told 'Oops! the server is down' rather than see a generic IIS 500 error page.
 - optimistic concurrency control to handle race conditions _is not done_
+- add linting, analyzer, formatters to style and lint the code
 
 ### reactapp2.client (React with Tanstack Query, Router)
 
@@ -172,6 +173,7 @@ The following is a list of known issues that came up during development which ha
     - anti-DRY is sufficient at this point to gather feedback in case development moves in a new direction
 - duplicate request cancellation
     - in the frontend, in some cases, if a user makes a duplicate request before a previous identical request is done, the previous identical request should be cancelled, or vice versa.
+- add linting, analyzer, formatters to style and lint the code
 
 ### Misc
 
