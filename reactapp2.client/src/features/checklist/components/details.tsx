@@ -26,6 +26,7 @@ const ChecklistDetailPage: React.FC<{ id: number }> = ({ id }) => {
     })
 
     if (isLoading) return <p>Loading checklist details...</p>
+    else if (error) return <p style={{ color: "red" }}>Error: {(error as Error).message}</p>
     else if (checklist) 
         return (
             <div>
@@ -34,7 +35,6 @@ const ChecklistDetailPage: React.FC<{ id: number }> = ({ id }) => {
                 <WorkItemsDirectory checklistId={checklist.id} />
             </div>
         )
-    else if (error) return <p style={{ color: "red" }}>Error: {(error as Error).message}</p>
     else return <p>No checklist found.</p>
 }
 

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * WorkItemDirectory component to display, add, and delete workitems.
  * 
  * This directory is a visual component that interacts with the workitem API
@@ -11,11 +11,11 @@
  * @updated Sep 2025
  * @author bling
  */
-
+import { useRouter } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { getWorkItems, createWorkItem, deleteWorkItem, patchWorkItemAsCompleteOrIncomplete } from "../api"
-import type WorkItem from '../model'
-import { useState } from "react"
+import AddItemForm from "../../layout/AddItemForm"
+import DirectoryList from "../../layout/DirectoryList"
 
 interface WorkItemDirectoryProps {
     checklistId: number
@@ -34,8 +34,9 @@ interface WorkItemDirectoryProps {
  */
 const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) => {
     const queryClient = useQueryClient()
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
+
+    // Back button
+    const router = useRouter();
 
     // READ workItems
     const { data: workItems, error, isLoading } = useQuery({
@@ -87,55 +88,39 @@ const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) =>
 
     return (
         <div>
-            <h2>Work Items</h2>
-            <button onClick={refreshNow}>
+            <h2 className="text-2xl font-semibold text-gray-800 mt-2 py-2">Work Items</h2>
+            <button
+                onClick={refreshNow}
+                title="Sync the list with server on demand"
+            >
                 Refresh
             </button>
-            <ul>
 
-                {workItems?.map((wi: WorkItem) => {
-                    return (
-                        <li key={wi.id} style={{ marginBottom: "0.5rem" }}>
-                            {/* Link to work items detail page */}
-                            <a href={`/workitem/${wi.id}`} style={{ fontWeight: "bold" }}>
-                                {wi.name}
-                            </a>
-                            <span>Work Item Status: </span>
-                            <span>Done? :</span>
-                            <input
-                                type="checkbox"
-                                checked={wi.isComplete}
-                                onChange={(e) =>
-                                    patchCompletionMutation.mutate({
-                                        id: wi.id,
-                                        isComplete: e.target.checked,
-                                    })
-                                }
-                            />
-                            <button
-                                onClick={() => deleteMutation.mutate(wi.id)}
-                                style={{ marginLeft: "1rem" }}
-                            >
-                                Delete
-                            </button>
-                        </li>
-                    );
-                })}
-            </ul>
+            <DirectoryList
+                items={workItems!} // safe to assume non-null because isLoading and error are covered
+                onCardClick={id => window.location.href = `/workitem/${id}`}
+                onToggleComplete={(id: number, isComplete: boolean) =>
+                    patchCompletionMutation.mutate({ id, isComplete })
+                }
+                onDelete={(id: number) => deleteMutation.mutate(id)}
+            />
 
-            <form
-                onSubmit = {(e) => {
-                    e.preventDefault()
-                    if (name.trim()) {
-                        createMutation.mutate({ name, description, checklistId })
-                        setName("")
-                    }
-                }}
+            <AddItemForm
+                title="Add a new work item below:"
+                checklistId={checklistId}
+                onCreate={(name, description, checklistId) =>
+                    createMutation.mutate({ name, description, checklistId: checklistId! })}
+                pending={createMutation.isPending}
+                placeholderName="New work item name"
+                placeholderDescription= "New work item description"
+            />
+
+            <button
+                onClick={() => router.history.back()} // is not bulletproof, but reliable in most cases
+                className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 my-2"
             >
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder = "New workItem name" />
-                <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="New workItem description" />
-                <button type="submit" disabled = { createMutation.isPending } > Add </button>
-            </form>
+                &larr; Back
+            </button>
         </div>
     )
 }

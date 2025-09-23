@@ -8,17 +8,22 @@
  * @author bling 
  * @returns rendering
  */
-const FooterComponent = () => {
+
+import React from 'react';
+
+function FooterComponent() {
     return (
-        <ul>
-            <li>
-                {/* Link to Home page to close navigable routes */}
-                <a href="/" style={{ fontWeight: "bold" }}>
-                    "Go to Home"
+        <footer className="bg-gray-100 border-t border-gray-300 py-4 mt-12 w-full">
+            <div className="container mx-auto text-center">
+                <a
+                    href="/"
+                    className="font-bold text-blue-600 hover:underline"
+                >
+                    Go to Home
                 </a>
-            </li>
-        </ul>
-    )
+            </div>
+        </footer>
+    );
 }
 
-export default FooterComponent
+export default React.memo(FooterComponent);

@@ -10,10 +10,12 @@ import FooterComponent from "../features/layout/footer"
 
 export default function Root() {
     return (
-        <div style={{ padding: "1rem" }}>
-            <h1>Task Management App</h1>
-            <hr />
-            <Outlet />
+        <div className="min-h-screen flex flex-col">
+            <h1 className="text-3xl font-bold text-gray-900">Task Management App</h1>
+            <p>The page automatically polls for updates every 5 seconds {/** 5 second could be a configurable */}</p>
+            <main className="flex-grow">
+                <Outlet />
+            </main>
             <FooterComponent />
         </div>
     )

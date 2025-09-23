@@ -15,7 +15,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { getChecklists, createChecklist, deleteChecklist, patchChecklistAsCompleteOrIncomplete } from "../api"
 import type Checklist from '../model'
-import { useState } from "react"
+import DirectoryList from "../../layout/DirectoryList"
+import AddItemForm from "../../layout/AddItemForm"
 
 /**
  * ChecklistDirectory
@@ -29,11 +30,9 @@ import { useState } from "react"
  */
 export default function ChecklistDirectory() {
     const queryClient = useQueryClient()
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
 
     // READ checklists
-    const { data: checklists, error, isLoading } = useQuery({
+    const { data: checklists, error, isLoading } = useQuery<Checklist[]>({
         queryKey: ["checklists"],
         queryFn: getChecklists,
 
@@ -85,54 +84,31 @@ export default function ChecklistDirectory() {
 
     return (
         <div>
-            <h2>Checklists</h2>
-            <button onClick={refreshNow}>
+            <h2 className="text-2xl font-semibold text-gray-800 mt-2 py-2">Checklists</h2>
+            <button
+                onClick={refreshNow}
+                title="Sync the list with server on demand"
+            >
                 Refresh
             </button>
-            <ul>
-                {checklists?.map((cl: Checklist) => {
-                    return (
-                        <li key={cl.id} style={{ marginBottom: "0.5rem" }}>
-                            {/* Link to checklist page */}
-                            <a href={`/checklist/${cl.id}`} style={{ fontWeight: "bold" }}>
-                                {cl.name}
-                            </a>
-                            <span>Work Items completed (TODO:): </span>
-                            <span>Done? :</span>
-                            <input
-                                type="checkbox"
-                                checked={cl.isComplete}
-                                onChange={(e) =>
-                                    patchCompletionMutation.mutate({
-                                        id: cl.id,
-                                        isComplete: e.target.checked,
-                                    })
-                                }
-                            />
-                            <button
-                                onClick={() => deleteMutation.mutate(cl.id)}
-                                style={{ marginLeft: "1rem" }}
-                            >
-                                Delete
-                            </button>
-                        </li>
-                    );
-                })}
-            </ul>
 
-            <form
-                onSubmit={(e) => {
-                    e.preventDefault()
-                    if (name.trim()) {
-                        createMutation.mutate({ name, description })
-                        setName("")
-                    }
-                }}
-            >
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="New checklist" />
-                <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="New checklist description" />
-                <button type="submit" disabled={createMutation.isPending}>Add</button>
-            </form>
+            <DirectoryList
+                items={checklists!} // safe to assume non-null because isLoading and error are covered
+                onCardClick={id => window.location.href = `/checklist/${id}`}
+                onToggleComplete={(id: number, isComplete: boolean) =>
+                    patchCompletionMutation.mutate({ id, isComplete })
+                }
+                onDelete={(id: number) => deleteMutation.mutate(id)}
+            />
+
+            <AddItemForm
+                title="Add a new checklist below:"
+                onCreate={(name, description) =>
+                    createMutation.mutate({ name, description })}
+                pending={createMutation.isPending}
+                placeholderName="New checklist name"
+                placeholderDescription="New checklist description"
+            />
         </div>
     )
 }

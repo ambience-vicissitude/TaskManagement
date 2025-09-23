@@ -1,10 +1,10 @@
 import { defineConfig } from 'vitest/config';
-import plugin from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react';
 
 // TODO: add test coverage
 
 export default defineConfig({
-    plugins: [plugin()],
+    plugins: [react()],
     test: {
         browser: {
             enabled: true,

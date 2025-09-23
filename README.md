@@ -32,8 +32,6 @@ There are no current plans to deploy, so I will leave this section blank.
 
 ## Features
 
-Features expected by Sep 24 include:
-
 ### Crud
 
 - **CRUD of a checklist**
@@ -80,6 +78,11 @@ Future aspirations include moving in the 'Atlassian - JIRA' or 'Azure DevOps' di
 - viewing soft-deleted work items or checklists
 - filtering the work items or checklists by associative properties like categories, datetime range, users or groups, etc.
 - pagination
+
+### UI Polishing
+
+- any permanent/consequential user actions could have a 'Are you sure?' prompt to prevent human error, for example: deleting or editting
+- when deleting something, the ui does hang a few moments longer than expected, so a transitional state will improve the UX
 
 ### Visualization
 
