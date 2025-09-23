@@ -1,3 +1,10 @@
+/**
+ * __root route for the app
+ * 
+ * @updated Sep 2025
+ * @author bling
+ */
+
 import { createRootRoute, Outlet } from "@tanstack/react-router"
 import FooterComponent from "../features/layout/footer"
 

@@ -1,28 +1,33 @@
+/**
+ * Work Item Route
+ * 
+ * @updated Sep 2025
+ * @author bling
+ */
+
 import { createFileRoute } from '@tanstack/react-router'
-import { getWorkItem } from '../../features/workitem/api'
-import { useQuery } from '@tanstack/react-query'
 import WorkItemDetailPage from '../../features/workitem/components/details'
 
 export const Route = createFileRoute('/workitem/$workItemId')({
   component: WorkItemRouteComponent,
 })
 
+/**
+ * Returns WorkItemDetailPage feature to allow potential remapping of routes or changing of features in future
+ * 
+ * @returns WorkItemDetailPage by RouteParam id
+ */
 function WorkItemRouteComponent() {
-
     const { workItemId } = Route.useParams()
-    const { data: workItem } = useQuery({
-        queryKey: ['workItem', workItemId],
-        queryFn: () => getWorkItem(parseInt(workItemId, 10)),
-    })
+    const id = parseInt(workItemId, 10);
 
-    if (!workItem) return <p>Loading...</p>
-    return (
-        <div>
-            <h2>{workItem.name}</h2>
-            <p>{workItem.description}</p>
-            <WorkItemDetailPage id={parseInt(workItemId, 10)} />
-        </div>
-    )
+    // Error state
+    // parseInt returns NaN if no int found, but !id adds some robustness
+    //
+    // remarks: a reusable component can display as a page for any invalid state like this
+    if (!id || isNaN(id)) return <p>No work item id found.</p>
+
+    return <WorkItemDetailPage id={id} />
 }
 
 export default WorkItemRouteComponent;

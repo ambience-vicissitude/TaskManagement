@@ -1,12 +1,25 @@
-
+/**
+ * Checklist details
+ * 
+ * @updated Sep 2025
+ * @author bling
+ */
 
 import { useQuery } from "@tanstack/react-query"
 import { getChecklist } from "../api"
 import WorkItemsDirectory from "./../../workitem/components/directory"
-import type Checklist from "../model"
 
-const ChecklistDetailPage: React.FC<Checklist> = ({ id }) => {
-
+/**
+ * ChecklistDetailPage
+ * 
+ * A component that shows the details of a checklist
+ * 
+ * @description the use of Checklist as a Prop Type is over-engineering
+ * 
+ * @param id checklist identifier
+ * @returns render
+ */
+const ChecklistDetailPage: React.FC<{ id: number }> = ({ id }) => {
     const { data: checklist, isLoading, error } = useQuery({
         queryKey: ["checklist", id],
         queryFn: () => getChecklist(id),
@@ -17,6 +30,7 @@ const ChecklistDetailPage: React.FC<Checklist> = ({ id }) => {
         return (
             <div>
                 <h2>{checklist.name}</h2>
+                <span>{checklist.description}</span>
                 <WorkItemsDirectory checklistId={checklist.id} />
             </div>
         )

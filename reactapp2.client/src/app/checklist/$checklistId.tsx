@@ -1,43 +1,33 @@
-import { getChecklist } from "../../features/checklist/api"
-import { useQuery } from "@tanstack/react-query"
-import ChecklistDetailPage from "../../features/checklist/components/details"
+/**
+ * Checklist Route
+ * 
+ * @updated Sep 2025
+ * @author bling
+ */
+
 import { createFileRoute } from '@tanstack/react-router'
+import ChecklistDetailPage from "../../features/checklist/components/details"
 
 export const Route = createFileRoute('/checklist/$checklistId')({
     component: ChecklistDetailRouteComponent,
 })
 
+/**
+ * Returns ChecklistDetailPage feature to allow potential remapping of routes or changing of features in future
+ * 
+ * @returns ChecklistDetailPage by RouteParam id
+ */
 function ChecklistDetailRouteComponent() {
     const { checklistId } = Route.useParams()
     const id = parseInt(checklistId, 10);
 
-    // fetch checklist on condition there is a valid integer id
-    const { data: checklist } = useQuery({
-        queryKey: ["checklist", id],
-        queryFn: () => getChecklist(id),
-        enabled: Number.isInteger(id),
-    })
-
-    // TODO: handle possible errors from useQuery
-
     // Error state
     // parseInt returns NaN if no int found, but !id adds some robustness
-    if (!id || isNaN(id)) {
-        // TODO: better error handling component
-        return <p>Invalid checklist ID.</p>;
-    }
+    //
+    // remarks: a reusable component can display as a page for any invalid state like this
+    if (!id || isNaN(id)) return  <p>No checklist id found.</p>
 
-    // Loading state
-    if (!checklist) return <p>Loading...</p>
-
-    // Main render
-    return (
-        <div>
-            <h2>{checklist.name}</h2>
-            <p>{checklist.description}</p>
-            <ChecklistDetailPage id={id} />
-        </div>
-    )
+    return <ChecklistDetailPage id={id} />
 }
 
 export default ChecklistDetailRouteComponent;

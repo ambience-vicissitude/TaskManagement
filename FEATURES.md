@@ -107,7 +107,7 @@ What if two users simultaneously edit something and submit contrary requests, wo
 ## Media
 
 [ ] - record a demo video
-[ ] - update github link
+[x] - update github link
 [x] - double check assignment notes are all covered:
     [x] - Backend API design. Please use .NET Core.
     [x] - Data structure design. Please use SQL Lite or EF Core in memory.

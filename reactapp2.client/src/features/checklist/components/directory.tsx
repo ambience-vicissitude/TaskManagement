@@ -17,6 +17,16 @@ import { getChecklists, createChecklist, deleteChecklist, patchChecklistAsComple
 import type Checklist from '../model'
 import { useState } from "react"
 
+/**
+ * ChecklistDirectory
+ * 
+ * A component that displays a list of checklists provided by the fetch
+ * Able to CRUD checklists that are accessible to the user session
+ * 
+ * @description can extend ChecklistDirectory to 'filter by user' in future enhancements
+ * 
+ * @returns rendering
+ */
 export default function ChecklistDirectory() {
     const queryClient = useQueryClient()
     const [name, setName] = useState("")

@@ -1,8 +1,24 @@
+/**
+ * Work Item details
+ * 
+ * @updated Sep 2025
+ * @author bling
+ */
+
 import { useQuery } from "@tanstack/react-query"
 import { getWorkItem } from "../api"
-import type WorkItem from "../model"
 
-const WorkItemDetailPage: React.FC<WorkItem> = ({ id }) => {
+/**
+ * WorkItemDetailPage
+ * 
+ * A component that shows the details of a work item
+ * 
+ * @description the use of WorkItem as a Prop Type is over-engineering
+ * 
+ * @param id work item identifier
+ * @returns render
+ */
+const WorkItemDetailPage: React.FC<{ id: number }> = ({ id }) => {
 
     const { data: workItem, isLoading, error } = useQuery({
         queryKey: ["workItem", id],

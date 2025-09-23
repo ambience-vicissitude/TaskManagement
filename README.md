@@ -202,3 +202,5 @@ The following is a list of known issues that came up during development which ha
 - testing solutions for e2e, integration, unit, feature, UI component
 
 - long term maintainence of data, the database will grow, checklists and work items will grow, and eventually the cleanup service will need to be re-evaluated
+
+- manage code better with .gitignore, settings.json, constants, and sensitive .env variables, and not committing the app.db to repo

@@ -21,6 +21,17 @@ interface WorkItemDirectoryProps {
     checklistId: number
 }
 
+/**
+ * WorkItemDirectory
+ * 
+ * A component that displays a list of checklists provided by the fetch
+ * Able to CRUD checklists that are accessible to the user session
+ * 
+ * Able to filter for work items by checklistId
+ * 
+ * @param checklistId unique checklist identifier
+ * @returns rendering
+ */
 const WorkItemDirectory: React.FC<WorkItemDirectoryProps> = ({ checklistId }) => {
     const queryClient = useQueryClient()
     const [name, setName] = useState("")

@@ -1,6 +1,13 @@
-// Footer component with a link to the Home page
-// - designed to simply provide a way to navigate back to the home page from any other page in the app
-// - this closes the 'navigable routes' loop, ensuring users can always return to the starting point of the SPA
+/**
+ * Footer Component
+ * - has a link to home
+ * - designed to simply provide a way to navigate back to the home page from any other page in the app
+ * - this closes the 'navigable routes' loop, ensuring users can always return to the starting point of the SPA
+ * 
+ * @updated Sep 2025
+ * @author bling 
+ * @returns rendering
+ */
 const FooterComponent = () => {
     return (
         <ul>
