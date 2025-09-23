@@ -2,6 +2,8 @@
 
 This is the Task Management App created from VS Studio Insiders as a .NET Core API with React solution. From this point, it evolved into a 'Todoist'-like application with checklists and work items within them. Any unique work item must exist and only exists within one checklist, it is not shared.
 
+This code is owned and maintained by Bryan Ling. Please don't plagarise, I worked hard. TT_TT.
+
 ## Nomenclature
 
 The app was created to be a Small Todo List that could be scalable to a Task Management app, similar to a backlog or KANBAN board. Certain terms were chosen for this domain to avoid clashing with C#/Javascript terms.

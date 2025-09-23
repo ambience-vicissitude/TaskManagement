@@ -108,14 +108,15 @@ What if two users simultaneously edit something and submit contrary requests, wo
 
 [ ] - record a demo video
 [ ] - update github link
-[ ] - double check assignment notes are all covered:
-    - Backend API design. Please use .NET Core.
-    - Data structure design. Please use SQL Lite or EF Core in memory.
-    - Frontend component design. Please use React or Vue.
-    - Communication between frontend and backend.
-    - Clean code, architecture structure, and thought process.
-    - Trade-offs and assumptions.
-    - Include a short README.md with setup steps and your explanation notes.
-    - Comments or a README.md explaining assumptions, scalability, and what you would implement in the future.
+[x] - double check assignment notes are all covered:
+    [x] - Backend API design. Please use .NET Core.
+    [x] - Data structure design. Please use SQL Lite or EF Core in memory.
+    [x] - Frontend component design. Please use React or Vue.
+    [x] - Communication between frontend and backend.
+    [x] - Clean code, architecture structure, and thought process.
+    [x] - Trade-offs and assumptions.
+    [x] - Include a short README.md with setup steps and your explanation notes.
+    [x] - Comments or a README.md explaining assumptions, scalability, and what you would implement in the future.
 [ ] - delete clutter to avoid confusing evaluators with files that do not currently serve purpose
 [ ] - notify hiring team
+[ ] - keep improving the comments after submission
