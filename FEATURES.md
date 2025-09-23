@@ -4,52 +4,50 @@ This is my developer's 'backlog' board, which doubles as a documentation of the 
 
 ## Checklist
 
-[x] - C
-[x] - R
-[x] - mark completed
-[ ] - U
-[x] - D
-
-[ ] - on load, on error separation
+- [x] C
+- [x] R
+- [x] mark completed
+- [x] total completed
+- [ ] U
+- [x] D
+- [ ] on load, on error separation
 
 ## WorkItem
 
-[x] - C
-[x] - R
-[x] - mark completed
-[ ] - U
-[x] - D
-
-[ ] - on load, on error separation
+- [x] C
+- [x] R
+- [x] mark completed
+- [x] total completed
+- [ ] U
+- [x] D
+- [ ] on load, on error separation
 
 ## Testing HelloWorld
 
-[x] - workitem feature unit testing
-[ ] - checklist feature unit testing
-[x] - basic test for checklist controller
-[x] - basic test for checklist dbcontext
-[ ] - basic test for workitem controller
-[ ] - basic test for workitem dbcontext
+- [x] workitem feature unit testing
+- [ ] checklist feature unit testing
+- [x] basic test for checklist controller
+- [x] basic test for checklist dbcontext
+- [ ] basic test for workitem controller
+- [ ] basic test for workitem dbcontext
 
 ## Production Features
 
 ### Build it
 
-[x] - non-optimistic update approach, we've taken the non-optimistic route for updates, we assume the checklist or workitems can be outdated after each state change, assuming concurrent users or sessions can modify the same lists
-
-[x] - refresh list button (this helps users quickly sync with the latest updates on the checklist(s) or workitem(s) they are currently viewing)
+- [x] non-optimistic update approach, we've taken the non-optimistic route for updates, we assume the checklist or workitems can be outdated after each state change, assuming concurrent users or sessions can modify the same lists
+- [x] refresh list button (this helps users quickly sync with the latest updates on the checklist(s) or workitem(s) they are currently viewing)
     - this curate the UX to manage best with the non-optimistic updating strategy we've chosen
     - we went with a polling strategy for auto-refresh to keep lists more up-to-date without compromising UX too much, this strategy is better for smaller apps without real-time push notifications, which would require something like SignalR / WebSockets / SSE
-
-[x] - soft-delete
-[x] - cleanup service for .net
+- [x] soft-delete
+- [x] cleanup service for .net
     - went with a .net service for now to manage completed work items and checklists
     - the same concept can be applied if work items and checklists become time-sensitive (archived, expired, due date reached, not yet started, etc.)
-[x] - notable indices added
-[x] - basic CSS to pretty it up
-[x] - lint
-[ ] - feature that counts your achieved tasks in one day 'positive feedback for users'
-[x] - clean up your docstrings
+- [x] notable indices added
+- [x] basic CSS to pretty it up
+- [x] lint
+- [ ] feature that counts your achieved tasks in one day 'positive feedback for users'
+- [x] clean up your docstrings
 
 ## Tradeoffs/Assumptions
 
@@ -113,17 +111,17 @@ What if two users simultaneously edit something and submit contrary requests, wo
 
 ## Media
 
-[ ] - record a demo video
-[x] - update github link
-[x] - double check assignment notes are all covered:
-    [x] - Backend API design. Please use .NET Core.
-    [x] - Data structure design. Please use SQL Lite or EF Core in memory.
-    [x] - Frontend component design. Please use React or Vue.
-    [x] - Communication between frontend and backend.
-    [x] - Clean code, architecture structure, and thought process.
-    [x] - Trade-offs and assumptions.
-    [x] - Include a short README.md with setup steps and your explanation notes.
-    [x] - Comments or a README.md explaining assumptions, scalability, and what you would implement in the future.
-[ ] - delete clutter to avoid confusing evaluators with files that do not currently serve purpose
-[ ] - notify hiring team
-[ ] - keep improving the comments after submission
+- [ ] record a demo video
+- [x] update github link
+- [x] double check assignment notes are all covered:
+    - [x] Backend API design. Please use .NET Core.
+    - [x] Data structure design. Please use SQL Lite or EF Core in memory.
+    - [x] Frontend component design. Please use React or Vue.
+    - [x] Communication between frontend and backend.
+    - [x] Clean code, architecture structure, and thought process.
+    - [x] Trade-offs and assumptions.
+    - [x] Include a short README.md with setup steps and your explanation notes.
+    - [x] Comments or a README.md explaining assumptions, scalability, and what you would implement in the future.
+- [ ] delete clutter to avoid confusing evaluators with files that do not currently serve purpose
+- [ ] notify hiring team
+- [ ] keep improving the comments after submission
