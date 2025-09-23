@@ -9,7 +9,9 @@ This code is owned and maintained by Bryan Ling. Please don't plagarise, I worke
 The app was created to be a Small Todo List that could be scalable to a Task Management app, similar to a backlog or KANBAN board. Certain terms were chosen for this domain to avoid clashing with C#/Javascript terms.
 
 **Checklist**: is an instance of a todo list. This app allows users to create 1+ such unique lists. Each checklist can have unique work items that are not shared across other checklists
+
 **Work Item**: is an instance of a 'task' on these 'todo lists'. Work Item was chosen instead of the word 'Task' because 'Task' is an asynchronous operation in C#, so it was not a good word to use. Todo felt like it could clash with 'TODO:' notes written by developers and is also not a real word. 'Item' was too simple, so 'Work Item' was chosen to be definitive and unique, and shows the 'thought process' of scaling to a collaborative actionables list-making application in the future.
+
 **User**: is a unique user using the app. They can have several sessions of the app open, so concurrency is possible. For this prototype, users, login process, and groups/organizations have not been built, but have been considered.
 
 ## Installation and Setup
