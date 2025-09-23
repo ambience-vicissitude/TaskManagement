@@ -26,6 +26,11 @@ This app was built from the `.NET EF Core and React` template. This was done for
 See https://visualstudio.microsoft.com/downloads/ for VS Studio downloads. This will install the .NET/C# runtimes needed to launch .NET EF Core and React application.
 For better SQL experience, you could install SQLite and set it to PATH, or add the VS Studio extension 'SQLite/SQL Server Compact Toolbox'.
 
+### Test Setup
+
+1. Run the Test Runner for both reactApp2.client and ReactApp2.Server (technically the ReactApp2.Tests project that references Server) via VS Studio.
+1. In Test dropdown, select Run All Tests. This should open the Test Explorer showing both test suites running.
+
 ### Deployment Setup
 
 There are no current plans to deploy, so I will leave this section blank.
