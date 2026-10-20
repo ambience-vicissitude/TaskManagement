@@ -30,7 +30,11 @@ The following steps were used to generate this project:
 - Only the owner of a workitem or work item can view, edit or delete it
 - WorkItems and work items are now associated with a user and can be marked as completed
 
-# v.1.0.4+
+# v.1.0.4
+## Server
+- Update outdated dependencies like AspNetCore.OpenApi, SQLitePCLRaw.lib.e_sqlite3 (to keep sqlite for now)
+
+# v.1.0.5+
 Potential future updates include:  
 ## User
   - User profile management (e.g., change password, update email)

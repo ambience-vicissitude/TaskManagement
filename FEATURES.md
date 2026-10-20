@@ -122,6 +122,6 @@ What if two users simultaneously edit something and submit contrary requests, wo
     - [x] Trade-offs and assumptions.
     - [x] Include a short README.md with setup steps and your explanation notes.
     - [x] Comments or a README.md explaining assumptions, scalability, and what you would implement in the future.
-- [ ] delete clutter to avoid confusing evaluators with files that do not currently serve purpose
+- [x] delete clutter to avoid confusing evaluators with files that do not currently serve purpose
 - [ ] notify hiring team
-- [ ] keep improving the comments after submission
+- [x] keep improving the comments after submission

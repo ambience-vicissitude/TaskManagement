@@ -7,7 +7,7 @@
         "dev": "vite",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
-        "test": "vitest",
+        "test": "vitest --ui",
         "preview": "vite preview",
         "generateRoutes": "tsr generate"
     },
@@ -34,6 +34,7 @@
         "@types/react-dom": "^19.1.7",
         "@types/testing-library__jest-dom": "^5.14.9",
         "@vitejs/plugin-react": "^5.0.0",
+        "@vitest/ui": "^5.0.5",
         "eslint": "^9.33.0",
         "eslint-plugin-react-hooks": "^5.2.0",
         "eslint-plugin-react-refresh": "^0.4.20",
@@ -41,7 +42,7 @@
         "jsdom": "^27.0.0",
         "typescript": "~5.8.3",
         "typescript-eslint": "^8.39.1",
-        "vite": "^7.1.2",
-        "vitest": "^3.2.4"
+        "vite": "^7.3.7",
+        "vitest": "^5.0.5"
     }
 }

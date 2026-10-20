@@ -10,22 +10,22 @@
 
 import { Route as rootRouteImport } from './__root'
 import { Route as IndexRouteImport } from './index'
-import { Route as WorkitemWorkItemIdRouteImport } from './workitem/$workItemId'
 import { Route as ChecklistChecklistIdRouteImport } from './checklist/$checklistId'
+import { Route as WorkitemWorkItemIdRouteImport } from './workitem/$workItemId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WorkitemWorkItemIdRoute = WorkitemWorkItemIdRouteImport.update({
-  id: '/workitem/$workItemId',
-  path: '/workitem/$workItemId',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ChecklistChecklistIdRoute = ChecklistChecklistIdRouteImport.update({
   id: '/checklist/$checklistId',
   path: '/checklist/$checklistId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkitemWorkItemIdRoute = WorkitemWorkItemIdRouteImport.update({
+  id: '/workitem/$workItemId',
+  path: '/workitem/$workItemId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -68,18 +68,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/workitem/$workItemId': {
-      id: '/workitem/$workItemId'
-      path: '/workitem/$workItemId'
-      fullPath: '/workitem/$workItemId'
-      preLoaderRoute: typeof WorkitemWorkItemIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/checklist/$checklistId': {
       id: '/checklist/$checklistId'
       path: '/checklist/$checklistId'
       fullPath: '/checklist/$checklistId'
       preLoaderRoute: typeof ChecklistChecklistIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workitem/$workItemId': {
+      id: '/workitem/$workItemId'
+      path: '/workitem/$workItemId'
+      fullPath: '/workitem/$workItemId'
+      preLoaderRoute: typeof WorkitemWorkItemIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

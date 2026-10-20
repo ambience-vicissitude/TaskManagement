@@ -8,3 +8,6 @@ To run the tests, you can use the following command:
 npm test
 ```
 
+## Known Issues
+
+- Jest is imported implicitly to support vitest, but vitest should really do its own imports. This is a known issue and may be resolved in future updates.

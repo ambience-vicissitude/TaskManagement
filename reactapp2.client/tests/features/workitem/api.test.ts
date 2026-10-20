@@ -7,7 +7,7 @@
  * @updated Sep 2025
  * @author bling
  */
-import { vi, describe, test, expect, beforeEach } from 'vitest';
+import { vi } from 'vitest';
 import * as api from '../../../src/features/workitem/api';
 
 describe('WorkItem API', () => {
